@@ -1,0 +1,44 @@
+apz.app.onLoad_AllBeneficiary = ()=>{
+    apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "getAllBeneficiary",
+        req:{
+            userId : apz.app.userId,
+        },
+        paintResp : "Y"
+    });
+}
+let transaction = (elm)=>{
+       let res = apz.data.buildData("getAllBeneficiary", "Checke");
+    console.log(res);
+   apz.app.benificiaryId = res.Checke__getAllBeneficiary_Res[elm.getAttribute("rowno")].id;
+    
+    apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "initiateTransaction",
+        req:{
+            "makerId": apz.app.userId,
+  "debitAccountId": apz.accountId,
+  "beneficiaryId": apz.app.benificiaryId,
+  "amount": apz.app.amount,
+  "transactionType": "FUND_TRANSFER",
+  "remarks": apz.app.reason
+        },
+        callBack : (resp)=>{
+           console.log(resp) 
+    if(resp.errors == undefined){ 
+        apz.dispMsg({ 
+            type : "S", 
+            "message" : "Transaction initiated Successfully" 
+        })   
+    } 
+    else{ 
+        apz.dispMsg({ 
+            type : "W", 
+            "message" : resp.res.httpErrorBody.message 
+        }) 
+    } 
+        }
+       
+    });
+}

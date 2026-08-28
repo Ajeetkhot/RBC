@@ -1,0 +1,10 @@
+apz.app.onLoad_Maker = ()=>{
+    apz.app.userId = 1;
+}
+let init = ()=>{
+    apz.app.amount = apz.getElmValue("Checke__Maker__el_inp_2");
+    apz.app.reason = apz.getElmValue("Checke__Maker__el_inp_1");
+    
+    navigateTo("Accounts");
+    
+}

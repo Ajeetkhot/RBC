@@ -1,0 +1,19 @@
+apz.app.onLoad_Accounts = ()=>{
+    apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "getAccounts",
+        req:{
+            userId : apz.app.userId
+        },
+        paintResp : "Y"
+    });
+}
+
+let account = (elm)=>{
+    let res = apz.data.buildData("getAccounts", "Checke");
+    console.log(res);
+    apz.accountId = res.Checke__getAccounts_Res[elm.getAttribute("rowno")].id;
+    console.log(apz.accountId);
+    navigateTo("AllBeneficiary");
+    
+}

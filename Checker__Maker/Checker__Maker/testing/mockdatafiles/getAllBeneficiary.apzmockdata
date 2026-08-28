@@ -1,0 +1,20 @@
+[
+	{
+		"id": 3,
+		"beneficiaryName": "John",
+		"accountNumber": "1234567890",
+		"bankName": "ABC Bank",
+		"ifscCode": "ABC0001234",
+		"createdBy": 2,
+		"status": "ACTIVE"
+	},
+	{
+		"id": 4,
+		"beneficiaryName": "John",
+		"accountNumber": "1234567899",
+		"bankName": "ABC Bank",
+		"ifscCode": "ABC0001236",
+		"createdBy": 2,
+		"status": "ACTIVE"
+	}
+]

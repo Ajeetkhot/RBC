@@ -1,0 +1,79 @@
+apz.app.onLoad_Pending = ()=>{
+    apz.app.checkerId = 201;
+    apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "getAllPending",
+        req:{
+            checkerId : apz.app.checkerId,
+        },
+        paintResp : "Y"
+    });
+
+      apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "checkerHistory",
+        req:{
+            "checkerId": apz.app.checkerId
+        },
+        paintResp : "Y"
+    });
+}
+
+let approve = (elm)=>{  
+       let res = apz.data.buildData("getAllPending", "Checke");
+    console.log(res);
+   apz.app.transactionId = res.Checke__getAllPending_Res[elm.getAttribute("rowno")].transactionId;
+   apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "Approve",
+        req:{
+            checkerId : apz.app.checkerId,
+            transactionId : apz.app.transactionId
+        },
+        callBack : (resp)=>{
+            console.log(resp) 
+    if(resp.errors == undefined){ 
+        apz.dispMsg({ 
+            type : "S", 
+            "message" : "Transaction Approved Successfully" 
+        })   
+    } 
+    else{ 
+        apz.dispMsg({ 
+            type : "W", 
+            "message" : resp.res.httpErrorBody.message 
+        }) 
+    } 
+            }
+});
+}
+
+let reject = (elm)=>{
+       let res = apz.data.buildData("getAllPending", "Checke");
+    console.log(res);
+   apz.app.transactionId = res.Checke__getAllPending_Res[elm.getAttribute("rowno")].transactionId;
+   apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "Reject",
+        req:{
+            checkerId : apz.app.checkerId,
+            transactionId : apz.app.transactionId,
+            rejectReason : apz.getElmValue("Checke__Reject__i__Checke__Reject_Req__rejectionReason_0")
+        },
+        callBack : (resp)=>{
+          console.log(resp) 
+    if(resp.errors == undefined){ 
+        apz.dispMsg({ 
+            type : "S", 
+            "message" : "Transaction Rejected Successfully" 
+        })   
+    } 
+    else{ 
+        apz.dispMsg({ 
+            type : "W", 
+            "message" : resp.res.httpErrorBody.message 
+        }) 
+    } 
+            }
+});
+}   

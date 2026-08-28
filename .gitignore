@@ -1,0 +1,24 @@
+# Maven generated files
+**/target/
+
+# Appzillon generated build files
+**/build/
+
+# Appzillon generated bin files
+**/bin/
+
+# Java compiled files
+*.class
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+
+# Environment/secrets
+.env
+application-local.properties
+application-local.yml

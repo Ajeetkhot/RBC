@@ -1,0 +1,10 @@
+apz.app.onLoad_UserHistory = ()=>{
+    apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "getUserHistory",
+        req:{
+            "userId": apz.app.userId
+        },
+        paintResp : "Y"
+    });
+}

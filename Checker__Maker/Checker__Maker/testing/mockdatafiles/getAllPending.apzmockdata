@@ -1,0 +1,32 @@
+[
+	{
+		"transactionId": "TXN100001",
+		"makerId": 1,
+		"debitAccountId": 1,
+		"beneficiaryId": 1,
+		"amount": 5000,
+		"transactionType": "FUND_TRANSFER",
+		"remarks": "Payment",
+		"status": "PENDING_APPROVAL",
+		"createdAt": "2026-08-24T20:04:12",
+		"updatedAt": null,
+		"approvedBy": null,
+		"approvedAt": null,
+		"rejectionReason": null
+	},
+	{
+		"transactionId": "TXN100002",
+		"makerId": 2,
+		"debitAccountId": 2,
+		"beneficiaryId": 2,
+		"amount": 5000,
+		"transactionType": "FUND_TRANSFER",
+		"remarks": "Payment",
+		"status": "PENDING_APPROVAL",
+		"createdAt": "2026-08-24T15:10:22.944841",
+		"updatedAt": null,
+		"approvedBy": null,
+		"approvedAt": null,
+		"rejectionReason": null
+	}
+]

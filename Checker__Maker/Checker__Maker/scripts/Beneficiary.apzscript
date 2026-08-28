@@ -1,0 +1,32 @@
+apz.app.onLoad_Beneficiary=()=>{}
+    console.log("onLoad_Beneficiary");
+    
+    let create = ()=>{
+    
+    apz.server.callServer({
+        appId : apz.appId,
+        ifaceName : "CreateBeneficiary",    
+        req:{
+           "beneficiaryName": apz.getElmValue("Checke__CreateBeneficiary__i__Checke__CreateBeneficiary_Req__beneficiaryName") ,
+  "accountNumber": apz.getElmValue("Checke__CreateBeneficiary__i__Checke__CreateBeneficiary_Req__accountNumber"),
+  "bankName":   apz.getElmValue("Checke__CreateBeneficiary__i__Checke__CreateBeneficiary_Req__bankName"),
+  "ifscCode": apz.getElmValue("Checke__CreateBeneficiary__i__Checke__CreateBeneficiary_Req__ifscCode"),
+  "createdBy": apz.app.userId
+        },
+        callBack : (resp)=>{        
+            console.log(resp)
+            if(resp.errors == undefined){ 
+                apz.dispMsg({ 
+                    type : "S", 
+                    "message" : "Beneficiary Created Successfully" 
+                })   
+            } 
+            else{ 
+                apz.dispMsg({ 
+                    type : "W", 
+                    "message" : resp.res.httpErrorBody.message 
+                }) 
+            } 
+        }
+    });        
+}

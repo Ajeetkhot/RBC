@@ -1,0 +1,20 @@
+[
+	{
+		"id": 2,
+		"accountNumber": "10000022334",
+		"accountType": "CURRENT",
+		"currency": "INR",
+		"balance": 100000,
+		"availableBalance": 100000,
+		"status": "ACTIVE"
+	},
+	{
+		"id": 3,
+		"accountNumber": "10000022336",
+		"accountType": "CURRENT",
+		"currency": "INR",
+		"balance": 1000000,
+		"availableBalance": 1000000,
+		"status": "ACTIVE"
+	}
+]
