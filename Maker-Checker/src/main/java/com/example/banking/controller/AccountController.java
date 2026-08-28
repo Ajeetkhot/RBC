@@ -26,6 +26,11 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "Hi Kitapati Pravallika";
+    }
+
     @PostMapping("/accounts")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountResponse createAccount(@Valid @RequestBody AccountRequest request) {

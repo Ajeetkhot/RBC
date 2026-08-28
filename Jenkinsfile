@@ -71,7 +71,7 @@ pipeline {
 
         BACKEND_PORT = '8000'
 
-        BACKEND_URL = 'http://localhost:8000/api'
+        BACKEND_URL = 'http://localhost:8000/api/health'
 
         // Expected Spring Boot JAR
         //
@@ -453,7 +453,7 @@ pipeline {
                     echo Checking:
                     echo %BACKEND_URL%
 
-                    curl -s -o nul -w "%%{http_code}" "%BACKEND_URL%" | findstr "200 201 204"
+                    curl -s -o nul -w "%%{http_code}" "%BACKEND_URL%" | findstr /c:"200" /c:"201" /c:"204" >nul
 
                     if not errorlevel 1 (
                         echo.
