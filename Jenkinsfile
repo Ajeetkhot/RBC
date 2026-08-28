@@ -49,7 +49,8 @@ pipeline {
         // Incorrect:
         // D:\\SoftwarePath\\apache-maven-3.8.5\\bin\\mvn.cmd
 
-        MAVEN_HOME = 'D:\\SoftwarePath\\apache-maven-3.8.5\\bin'
+       MAVEN_HOME = 'D:\\SoftwarePath\\apache-maven-3.8.5'
+       MAVEN_CMD = 'D:\\SoftwarePath\\apache-maven-3.8.5\\bin\\mvn.cmd'
 
 
         // ------------------------------------------------------------
