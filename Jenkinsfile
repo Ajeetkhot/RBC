@@ -66,7 +66,7 @@ pipeline {
         //
         // CHANGE THIS IF YOUR pom.xml IS INSIDE A SUBDIRECTORY.
 
-        BACKEND_PROJECT_DIR = '.'
+        PROJECT_DIR = 'Maker-Checker'
 
         BACKEND_PORT = '8000'
 
