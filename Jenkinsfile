@@ -103,7 +103,7 @@ pipeline {
 
         APPZ_ARTIFACTS = 'D:\\Jenkinss'
 
-        WAR_NAME = 'Checker_Maker.war'
+        WAR_NAME = 'Checker__Maker.war'
 
         APP_CONTEXT_PATH = 'Checker__Maker'
 
