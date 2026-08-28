@@ -10,7 +10,7 @@ pipeline {
  
         string(name: 'GIT_URL', defaultValue: 'https://github.com/Ajeetkhot/RBC.git', description: 'Git repository URL')
         string(name: 'GIT_BRANCH', defaultValue: 'main', description: 'Git branch to build')
-        string(name: 'PROJECT_DIR', defaultValue: 'D://SoftwarePath//apache-maven-3.8.5//bin//mvn.cmd', description: 'Maven project directory')
+        string(name: 'PROJECT_DIR', defaultValue: 'D:/SoftwarePath/apache-maven-3.8.5/bin//mvn.cmd', description: 'Maven project directory')
         string(name: 'JAVA_HOME', defaultValue: 'C:/Program Files/Java/dk-17.0.2', description: 'JDK home on the Jenkins agent')
         string(name: 'BACKEND_PORT', defaultValue: '8000', description: 'Spring Boot port')
         string(name: 'TOMCAT_PORT', defaultValue: '8080', description: 'Tomcat port')
