@@ -114,11 +114,9 @@ pipeline {
         // PLAYWRIGHT
         // ------------------------------------------------------------
 
-        PLAYWRIGHT_JAVA_DIR = 'C:\\Users\\ajeet.khot\\Desktop\\RBC\\Maker-Checker'
-
+        PLAYWRIGHT_JAVA_DIR = "https://github.com/Ajeetkhot/RBC/tree/main/Maker-Checker"
         PLAYWRIGHT_BASE_URL = 'http://localhost:8080/Checker__Maker/'
-
-        PLAYWRIGHT_TEST = 'ExampleTest'
+        PLAYWRIGHT_TEST = 'PWTest'
 
 
         // ------------------------------------------------------------
