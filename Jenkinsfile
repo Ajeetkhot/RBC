@@ -114,10 +114,9 @@ pipeline {
         // PLAYWRIGHT
         // ------------------------------------------------------------
 
-        PLAYWRIGHT_JAVA_DIR = "https://github.com/Ajeetkhot/RBC/tree/main/Maker-Checker"
-        PLAYWRIGHT_BASE_URL = 'http://localhost:8080/Checker__Maker/'
-        PLAYWRIGHT_TEST = 'PWTest'
-
+        PLAYWRIGHT_JAVA_DIR = 'Maker-Checker'
+    PLAYWRIGHT_BASE_URL = 'http://localhost:8080/Checker__Maker/'
+    PLAYWRIGHT_TEST = 'PWTest'
 
         // ------------------------------------------------------------
         // CI
@@ -760,72 +759,100 @@ pipeline {
         // PLAYWRIGHT
         // ============================================================
 
-        stage('Playwright Tests') {
+       stage('Playwright Tests') {
 
-            steps {
+    steps {
 
-                echo '=========================================='
-                echo 'RUNNING PLAYWRIGHT TESTS'
-                echo '=========================================='
+        echo '=========================================='
+        echo 'RUNNING PLAYWRIGHT TESTS'
+        echo '=========================================='
 
-                bat '''
-                    @echo off
+        bat '''
+            @echo off
 
-                    if not exist "%PLAYWRIGHT_JAVA_DIR%" (
-                        echo.
-                        echo WARNING: Playwright directory not found:
-                        echo %PLAYWRIGHT_JAVA_DIR%
-                        echo.
-                        echo Skipping Playwright.
-                        exit /b 0
-                    )
+            echo.
+            echo ==========================================
+            echo PLAYWRIGHT PROJECT
+            echo ==========================================
 
-                    if not exist "%PLAYWRIGHT_JAVA_DIR%\\pom.xml" (
-                        echo.
-                        echo WARNING: Playwright pom.xml not found.
-                        echo Skipping Playwright.
-                        exit /b 0
-                    )
+            echo Jenkins Workspace:
+            echo %WORKSPACE%
 
-                    cd /d "%PLAYWRIGHT_JAVA_DIR%"
+            echo Playwright Directory:
+            echo %PLAYWRIGHT_JAVA_DIR%
 
-                    set "JAVA_HOME=%JAVA_HOME%"
-                    set "PATH=%JAVA_HOME%\\bin;%MAVEN_HOME%\\bin;%PATH%"
+            if not exist "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%" (
+                echo.
+                echo ERROR: Playwright directory not found:
+                echo %WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%
+                exit /b 1
+            )
 
-                    echo.
-                    echo Java:
-                    java -version
+            if not exist "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml" (
+                echo.
+                echo ERROR: Playwright pom.xml not found:
+                echo %WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml
+                exit /b 1
+            )
 
-                    echo.
-                    echo Maven:
-                    "%MAVEN_HOME%\\bin\\mvn.cmd" -version
+            cd /d "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%"
 
-                    echo.
-                    echo Playwright URL:
-                    echo %PLAYWRIGHT_BASE_URL%
+            echo.
+            echo Current Directory:
+            cd
 
-                    echo.
-                    echo ==========================================
-                    echo RUNNING PLAYWRIGHT
-                    echo ==========================================
+            set "PATH=%JAVA_HOME%\\bin;%MAVEN_HOME%\\bin;%PATH%"
 
-                    "%MAVEN_HOME%\\bin\\mvn.cmd" test -Dtest=%PLAYWRIGHT_TEST%
+            echo.
+            echo ==========================================
+            echo JAVA
+            echo ==========================================
 
-                    if errorlevel 1 (
-                        echo.
-                        echo ==========================================
-                        echo PLAYWRIGHT TEST FAILED
-                        echo ==========================================
-                        exit /b 1
-                    )
+            java -version
 
-                    echo.
-                    echo ==========================================
-                    echo PLAYWRIGHT TEST PASSED
-                    echo ==========================================
-                '''
-            }
-        }
+            echo.
+            echo ==========================================
+            echo MAVEN
+            echo ==========================================
+
+            "%MAVEN_HOME%\\bin\\mvn.cmd" -version
+
+            echo.
+            echo ==========================================
+            echo PLAYWRIGHT URL
+            echo ==========================================
+
+            echo %PLAYWRIGHT_BASE_URL%
+
+            echo.
+            echo ==========================================
+            echo PLAYWRIGHT TEST
+            echo ==========================================
+
+            echo %PLAYWRIGHT_TEST%
+
+            echo.
+            echo ==========================================
+            echo RUNNING PLAYWRIGHT
+            echo ==========================================
+
+            "%MAVEN_HOME%\\bin\\mvn.cmd" test -Dtest=%PLAYWRIGHT_TEST%
+
+            if errorlevel 1 (
+                echo.
+                echo ==========================================
+                echo PLAYWRIGHT TEST FAILED
+                echo ==========================================
+                exit /b 1
+            )
+
+            echo.
+            echo ==========================================
+            echo PLAYWRIGHT TEST PASSED
+            echo ==========================================
+        '''
+    }
+}
     }
 
 
