@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class AccountController {
     }
 
     @GetMapping("/health")
-    public String healthCheck() {
-        return "Hi Kitapati Pravallika";
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("UP");
     }
 
     @PostMapping("/accounts")
