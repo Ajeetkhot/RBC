@@ -759,110 +759,133 @@ pipeline {
         // PLAYWRIGHT
         // ============================================================
 
-       stage('Playwright Tests') {
+      stage('Playwright Tests') {
+steps {
 
-    steps {
+    echo '=========================================='
+    echo 'RUNNING PLAYWRIGHT TESTS'
+    echo '=========================================='
 
-        echo '=========================================='
-        echo 'RUNNING PLAYWRIGHT TESTS'
-        echo '=========================================='
+    bat '''
+        @echo off
+        setlocal
 
-        bat '''
-            @echo off
+        echo.
+        echo ==========================================
+        echo PLAYWRIGHT PROJECT
+        echo ==========================================
 
+        echo Workspace:
+        echo %WORKSPACE%
+
+        echo Playwright Directory:
+        echo %PLAYWRIGHT_JAVA_DIR%
+
+        if not exist "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml" (
+            echo.
+            echo ERROR: Playwright pom.xml NOT FOUND
+            echo Expected:
+            echo %WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml
+            exit /b 1
+        )
+
+        cd /d "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%"
+
+        echo.
+        echo Current Directory:
+        cd
+
+        echo.
+        echo ==========================================
+        echo JAVA
+        echo ==========================================
+
+        set "PATH=%JAVA_HOME%\\bin;%MAVEN_HOME%\\bin;%PATH%"
+
+        java -version
+
+        if errorlevel 1 (
+            echo ERROR: JAVA FAILED
+            exit /b 1
+        )
+
+        echo.
+        echo ==========================================
+        echo MAVEN
+        echo ==========================================
+
+        "%MAVEN_HOME%\\bin\\mvn.cmd" -version
+
+        if errorlevel 1 (
+            echo ERROR: MAVEN FAILED
+            exit /b 1
+        )
+
+        echo.
+        echo ==========================================
+        echo PLAYWRIGHT URL
+        echo ==========================================
+
+        echo %PLAYWRIGHT_BASE_URL%
+
+        echo.
+        echo ==========================================
+        echo PLAYWRIGHT TEST
+        echo ==========================================
+
+        echo %PLAYWRIGHT_TEST%
+
+        echo.
+        echo ==========================================
+        echo CHECKING POM
+        echo ==========================================
+
+        "%MAVEN_HOME%\\bin\\mvn.cmd" help:effective-pom -Doutput=effective-pom.xml
+
+        if errorlevel 1 (
+            echo ERROR: Maven cannot read pom.xml
+            exit /b 1
+        )
+
+        echo.
+        echo ==========================================
+        echo PLAYWRIGHT DEPENDENCY
+        echo ==========================================
+
+        "%MAVEN_HOME%\\bin\\mvn.cmd" dependency:tree -Dincludes=com.microsoft.playwright:playwright
+
+        if errorlevel 1 (
+            echo ERROR: Playwright dependency is missing or Maven dependency resolution failed
+            exit /b 1
+        )
+
+        echo.
+        echo ==========================================
+        echo RUNNING PLAYWRIGHT TEST
+        echo ==========================================
+
+        "%MAVEN_HOME%\\bin\\mvn.cmd" test -Dtest=%PLAYWRIGHT_TEST% -Dplaywright.headless=true
+
+        if errorlevel 1 (
             echo.
             echo ==========================================
-            echo PLAYWRIGHT PROJECT
+            echo PLAYWRIGHT TEST FAILED
             echo ==========================================
+            exit /b 1
+        )
 
-            echo Jenkins Workspace:
-            echo %WORKSPACE%
+        echo.
+        echo ==========================================
+        echo PLAYWRIGHT TEST PASSED
+        echo ==========================================
 
-            echo Playwright Directory:
-            echo %PLAYWRIGHT_JAVA_DIR%
-
-            if not exist "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%" (
-                echo.
-                echo ERROR: Playwright directory not found:
-                echo %WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%
-                exit /b 1
-            )
-
-            if not exist "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml" (
-                echo.
-                echo ERROR: Playwright pom.xml not found:
-                echo %WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml
-                exit /b 1
-            )
-
-            cd /d "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%"
-
-            echo.
-            echo Current Directory:
-            cd
-
-            set "PATH=%JAVA_HOME%\\bin;%MAVEN_HOME%\\bin;%PATH%"
-
-            echo.
-            echo ==========================================
-            echo JAVA
-            echo ==========================================
-
-            java -version
-
-            echo.
-            echo ==========================================
-            echo MAVEN
-            echo ==========================================
-
-            "%MAVEN_HOME%\\bin\\mvn.cmd" -version
-
-            echo.
-            echo ==========================================
-            echo PLAYWRIGHT URL
-            echo ==========================================
-
-            echo %PLAYWRIGHT_BASE_URL%
-
-            echo.
-            echo ==========================================
-            echo PLAYWRIGHT TEST
-            echo ==========================================
-
-            echo %PLAYWRIGHT_TEST%
-
-            echo.
-            echo ==========================================
-            echo RUNNING PLAYWRIGHT
-            echo ==========================================
-
-            "%MAVEN_HOME%\\bin\\mvn.cmd" com.microsoft.playwright:playwright-maven-plugin:install
-
-            if errorlevel 1 (
-                echo.
-                echo ==========================================
-                echo PLAYWRIGHT INSTALL FAILED
-                echo ==========================================
-                exit /b 1
-            )
-
-            "%MAVEN_HOME%\\bin\\mvn.cmd" test -Dtest=%PLAYWRIGHT_TEST% -Dplaywright.headless=true
-
-            if errorlevel 1 (
-                echo.
-                echo ==========================================
-                echo PLAYWRIGHT TEST FAILED
-                echo ==========================================
-                exit /b 1
-            )
-
-            echo.
-            echo ==========================================
-            echo PLAYWRIGHT TEST PASSED
-            echo ==========================================
-        '''
-    }
+        endlocal
+    '''
 }
+
+
+}
+
     }
 
 
