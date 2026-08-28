@@ -16,7 +16,8 @@ public class PWTest {
     private BrowserContext context;
     private Page page;
 
-    private boolean headless = false;
+    // Respect CI setting: default to headless unless overridden with -Dplaywright.headless=false
+    private boolean headless = Boolean.parseBoolean(System.getProperty("playwright.headless", "true"));
 
     private String appUrl;
 

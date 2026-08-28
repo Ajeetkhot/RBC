@@ -836,7 +836,7 @@ pipeline {
             echo RUNNING PLAYWRIGHT
             echo ==========================================
 
-            "%MAVEN_HOME%\\bin\\mvn.cmd" test -Dtest=%PLAYWRIGHT_TEST%
+            "%MAVEN_HOME%\\bin\\mvn.cmd" test -Dtest=%PLAYWRIGHT_TEST% -Dplaywright.headless=true
 
             if errorlevel 1 (
                 echo.
