@@ -836,6 +836,16 @@ pipeline {
             echo RUNNING PLAYWRIGHT
             echo ==========================================
 
+            "%MAVEN_HOME%\\bin\\mvn.cmd" com.microsoft.playwright:playwright-maven-plugin:install
+
+            if errorlevel 1 (
+                echo.
+                echo ==========================================
+                echo PLAYWRIGHT INSTALL FAILED
+                echo ==========================================
+                exit /b 1
+            )
+
             "%MAVEN_HOME%\\bin\\mvn.cmd" test -Dtest=%PLAYWRIGHT_TEST% -Dplaywright.headless=true
 
             if errorlevel 1 (
