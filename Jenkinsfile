@@ -759,79 +759,80 @@ PLAYWRIGHT_BASE_URL='http://localhost:8080/Checker__Maker/'
         // PLAYWRIGHT
         // ============================================================
 stage('Playwright Tests') {
-    steps {
-        echo '=========================================='
-        echo 'RUNNING PLAYWRIGHT TESTS'
-        echo '=========================================='
+steps {
+echo '=========================================='
+echo 'RUNNING PLAYWRIGHT TESTS'
+echo '=========================================='
 
-        bat '''
-            @echo off
-            setlocal
+    bat '''
+        @echo off
 
+        cd /d "%WORKSPACE%\\Maker-Checker"
+
+        echo.
+        echo ==========================================
+        echo PLAYWRIGHT PROJECT
+        echo ==========================================
+        echo Current Directory:
+        cd
+
+        echo.
+        echo ==========================================
+        echo CHECKING PWTest
+        echo ==========================================
+
+        if not exist "src\\test\\java\\PWTest.java" (
+            echo ERROR: PWTest.java NOT FOUND
+            exit /b 1
+        )
+
+        echo PWTest.java FOUND
+
+        echo.
+        echo ==========================================
+        echo JAVA
+        echo ==========================================
+
+        set "PATH=%JAVA_HOME%\\bin;%MAVEN_HOME%\\bin;%PATH%"
+
+        java -version
+
+        echo.
+        echo ==========================================
+        echo MAVEN
+        echo ==========================================
+
+        call "%MAVEN_HOME%\\bin\\mvn.cmd" -version
+
+        echo.
+        echo ==========================================
+        echo MAVEN COMMAND
+        echo ==========================================
+
+        echo Running Playwright test now...
+
+        call "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=PWTest
+
+        if errorlevel 1 (
             echo.
             echo ==========================================
-            echo PLAYWRIGHT PROJECT
+            echo PLAYWRIGHT TEST FAILED
             echo ==========================================
+            exit /b 1
+        )
 
-            cd /d "%WORKSPACE%\\Maker-Checker"
+        echo.
+        echo ==========================================
+        echo PLAYWRIGHT TEST PASSED
+        echo ==========================================
 
-            echo Current Directory:
-            cd
-
-            echo.
-            echo ==========================================
-            echo CHECKING PWTEST
-            echo ==========================================
-
-            if not exist "src\\test\\java\\PWTest.java" (
-                echo ERROR: PWTest.java NOT FOUND
-                exit /b 1
-            )
-
-            echo PWTest.java FOUND
-
-            echo.
-            echo ==========================================
-            echo JAVA
-            echo ==========================================
-
-            set "PATH=%JAVA_HOME%\\bin;%MAVEN_HOME%\\bin;%PATH%"
-
-            java -version
-
-            echo.
-            echo ==========================================
-            echo MAVEN
-            echo ==========================================
-
-            "%MAVEN_HOME%\\bin\\mvn.cmd" -version
-
-            echo.
-            echo ==========================================
-            echo PLAYWRIGHT TEST
-            echo ==========================================
-
-            echo Running:
-            echo mvn "-Dplaywright.headless=false" test -Dtest=PWTest
-
-           call "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=PWTest
-            if errorlevel 1 (
-                echo.
-                echo ==========================================
-                echo PLAYWRIGHT TEST FAILED
-                echo ==========================================
-                exit /b 1
-            )
-
-            echo.
-            echo ==========================================
-            echo PLAYWRIGHT TEST PASSED
-            echo ==========================================
-
-            endlocal
-        '''
-    }
+        exit /b 0
+    '''
 }
+
+
+}
+
 
     }
 
