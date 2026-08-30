@@ -814,8 +814,7 @@ stage('Playwright Tests') {
             echo Running:
             echo mvn "-Dplaywright.headless=false" test -Dtest=PWTest
 
-            "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=PWTest
-
+           call "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=PWTest
             if errorlevel 1 (
                 echo.
                 echo ==========================================
