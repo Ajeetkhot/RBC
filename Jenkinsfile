@@ -767,7 +767,7 @@ echo '=========================================='
     bat '''
         @echo off
 
-        cd /d "%WORKSPACE%\\Maker-Checker"
+        cd /d "%WORKSPACE%\\%PROJECT_DIR%"
 
         echo.
         echo ==========================================
@@ -781,12 +781,12 @@ echo '=========================================='
         echo CHECKING PWTest
         echo ==========================================
 
-        if not exist "src\\test\\java\\PWTest.java" (
-            echo ERROR: PWTest.java NOT FOUND
+       if not exist "src\\test\\java\\%PLAYWRIGHT_TEST%.java" (
+            echo ERROR: %PLAYWRIGHT_TEST%.java NOT FOUND
             exit /b 1
         )
 
-        echo PWTest.java FOUND
+        echo %PLAYWRIGHT_TEST%.java FOUND
 
         echo.
         echo ==========================================
@@ -811,8 +811,7 @@ echo '=========================================='
 
         echo Running Playwright test now...
 
-        call "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=PWTest
-
+       call "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=%PLAYWRIGHT_TEST%
         if errorlevel 1 (
             echo.
             echo ==========================================
@@ -862,7 +861,7 @@ echo '=========================================='
         success {
 
             echo '=========================================='
-            echo 'CHECKER MAKER DEPLOYMENT SUCCESSFUL'
+           echo 'DEPLOYMENT SUCCESSFUL'
             echo '=========================================='
 
             echo "Backend:"
@@ -878,7 +877,7 @@ echo '=========================================='
         failure {
 
             echo '=========================================='
-            echo 'CHECKER MAKER DEPLOYMENT FAILED'
+           echo 'DEPLOYMENT FAILED'
             echo '=========================================='
 
             echo 'Check the failed Jenkins stage.'
