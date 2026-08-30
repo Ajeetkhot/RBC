@@ -199,7 +199,7 @@ public class PWTest {
                 page.getByRole(
                                 AriaRole.BUTTON,
                                 new Page.GetByRoleOptions()
-                                                .setName("Ok"))
+                                                .setName("Go"))
                                 .click();
 
                 // -------------------------------------------------
