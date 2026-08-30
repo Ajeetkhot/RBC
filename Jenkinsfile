@@ -758,7 +758,6 @@ PLAYWRIGHT_BASE_URL='http://localhost:8080/Checker__Maker/'
         // ============================================================
         // PLAYWRIGHT
         // ============================================================
-
 stage('Playwright Tests') {
     steps {
         echo '=========================================='
@@ -774,35 +773,18 @@ stage('Playwright Tests') {
             echo PLAYWRIGHT PROJECT
             echo ==========================================
 
-            echo Workspace:
-            echo %WORKSPACE%
+            cd /d "%WORKSPACE%\\Maker-Checker"
 
-            echo Playwright Directory:
-            echo %PLAYWRIGHT_JAVA_DIR%
-
-            if not exist "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml" (
-                echo.
-                echo ERROR: pom.xml NOT FOUND
-                echo Expected:
-                echo %WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\pom.xml
-                exit /b 1
-            )
-
-            cd /d "%WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%"
-
-            echo.
             echo Current Directory:
             cd
 
             echo.
             echo ==========================================
-            echo CHECKING PWTest.java
+            echo CHECKING PWTEST
             echo ==========================================
 
             if not exist "src\\test\\java\\PWTest.java" (
                 echo ERROR: PWTest.java NOT FOUND
-                echo Expected:
-                echo %WORKSPACE%\\%PLAYWRIGHT_JAVA_DIR%\\src\\test\\java\\PWTest.java
                 exit /b 1
             )
 
@@ -817,11 +799,6 @@ stage('Playwright Tests') {
 
             java -version
 
-            if errorlevel 1 (
-                echo ERROR: JAVA FAILED
-                exit /b 1
-            )
-
             echo.
             echo ==========================================
             echo MAVEN
@@ -829,46 +806,15 @@ stage('Playwright Tests') {
 
             "%MAVEN_HOME%\\bin\\mvn.cmd" -version
 
-            if errorlevel 1 (
-                echo ERROR: MAVEN FAILED
-                exit /b 1
-            )
-
             echo.
             echo ==========================================
-            echo APPLICATION CHECK
+            echo PLAYWRIGHT TEST
             echo ==========================================
 
-            echo Checking:
-            echo %PLAYWRIGHT_BASE_URL%
+            echo Running:
+            echo mvn "-Dplaywright.headless=false" test -Dtest=PWTest
 
-            powershell -NoProfile -Command "try { $r = Invoke-WebRequest -Uri '%PLAYWRIGHT_BASE_URL%' -UseBasicParsing -TimeoutSec 10; Write-Host 'Application is UP. HTTP:' $r.StatusCode } catch { Write-Host 'ERROR: Application is NOT reachable'; exit 1 }"
-
-            if errorlevel 1 (
-                echo ERROR: Application is not running
-                exit /b 1
-            )
-
-            echo.
-            echo ==========================================
-            echo PLAYWRIGHT CONFIGURATION
-            echo ==========================================
-
-            echo Test:
-            echo %PLAYWRIGHT_TEST%
-
-            echo Headless:
-            echo false
-
-            echo Base URL:
-            echo %PLAYWRIGHT_BASE_URL%
-
-            echo.
-            echo ==========================================
-            echo RUNNING PLAYWRIGHT TEST
-            echo ==========================================
-
-            "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=%PLAYWRIGHT_TEST%
+            "%MAVEN_HOME%\\bin\\mvn.cmd" "-Dplaywright.headless=false" test -Dtest=PWTest
 
             if errorlevel 1 (
                 echo.
